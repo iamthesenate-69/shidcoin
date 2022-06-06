@@ -47,14 +47,6 @@ public class Run {
                 .build();
         
 
-
-//        CONFETTI("ODU0NTM3NzIzMTQ3MDU5MjAw.YMlYRQ.uOAXpUEhEFMDFBiQ86oE_nh-D60");
-//        CONFETTI("ODU0NTM3Nzg3NDY1MTM4MTk2.YMlYVQ.hSHAQbBdN6T5W6KMIyASq8-ynF0");
-//        CONFETTI("ODU0NTM3ODM1MzE4MjE0Njc3.YMlYYA.rlrEAqCb6g-NKtSc6P1tltFOYaI");
-//        CONFETTI("ODU0NTM3OTA0ODE0MDMwODg3.YMlYcQ.cubVZ3HKzd6mjPAWrwurhgS30Z8");
-//        CONFETTI("ODU0NTM3OTQ5Mjg1NTgwODAw.YMlYew.OMisyIG2RDN1U3pa4PlpG-4xvkU");
-//        CONFETTI("ODU0NTM4MDAyMjMxMDY2Njg0.YMlYiA.g5s01odvJvTG5d0NU-FMDz0Z4yk");
-
         jda.awaitReady();
 
         CommandListUpdateAction commands = jda.getGuildById(guildid).updateCommands();
