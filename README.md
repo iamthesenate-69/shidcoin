@@ -1,0 +1,2 @@
+# shidcoin
+shidcoin
