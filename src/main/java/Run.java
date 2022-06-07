@@ -3,6 +3,7 @@ import commands.list.*;
 import commands.OptionDataManager;
 import commands.list.Hlfrench;
 import commands.list.hlfrench.Tester;
+import db.Database;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -14,31 +15,42 @@ import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.apache.log4j.BasicConfigurator;
 
 import javax.security.auth.login.LoginException;
+import javax.xml.crypto.Data;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.EnumSet;
 import java.util.HashMap;
 
 public class Run {
     //bottoken
-    private static String token = "NzMwMTA3MTc5MzUyMTk1MTM0.XwSrTA.BxmqvWjYnJTsR0780IqtWtnMoA8";
+    private static String token;
     //guild id
     private static String guildid = "699278323896811551";
+    public static String channelid = "983224367150419979";
+    public static String[] pinEmotes = {"\uD83D\uDCCC","\uD83D\uDCCD","\uD83E\uDDF7"};
 
     public static HashMap<String, CommandManager> commandManagerTreeMap = new HashMap<>();
 
     //telescreen
     public static HashMap<String, Integer> telescreenTreeMap = new HashMap<>();
     public static String[] response = {"we are the dead", "it was behind the picture", "now they can see us", "the house is surrounded", "i suppose we may as well say goodbye"};
-
+    public static Database db;
     public static JDA jda;
     
     public static JDA getJDA() {
         return jda;
     }
 
-    public static void main(String args[]) throws LoginException, InterruptedException, IOException {
+    public static void main(String args[]) throws LoginException, InterruptedException, IOException, SQLException {
         //so it doesnt error on start up
         BasicConfigurator.configure();
+
+        token = read("token.txt");
+
+        db = new Database();
+
 
         jda = JDABuilder.create(token, EnumSet.allOf(GatewayIntent.class))
                 .addEventListeners(new EventManager())
@@ -65,17 +77,27 @@ public class Run {
 //        new ConsolePanel();
 
 
-       createConsole();
+//       createConsole();
+
+       //hl french
         new Tester();
 
 
     }
 
-
-
-    private static void createConsole() {
-
+    private static String read(String s) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(s));
+       return br.readLine();
     }
 
 
+//
+//    private static void createConsole() {
+//
+//    }
+
+
 }
+
+// Among us Sussy Baka
+// thanks
