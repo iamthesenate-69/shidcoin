@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.*;
+import java.util.HashMap;
 
 /*
 User ID for Discord users: "discord:<uid>" for example discord:376857210485080064
@@ -48,23 +49,41 @@ public class Database {
         stmt.executeUpdate(query);
     }
 
+    public HashMap<String, Integer> getItems(String user) throws SQLException {
+        HashMap<String, Integer> items = new HashMap<>();
+        Statement stmt = conn.createStatement();
+        String query = String.format("select (itemName, quantity) from ShidItems where userId = '%s'", escapeSql(user));
+        ResultSet results = stmt.executeQuery(query);
+        while(results.next()) {
+            items.put(results.getString(0), results.getInt(1));
+        }
+        return items;
+    }
+
     public int getItemQuantity(String user, String item) throws SQLException {
         Statement stmt = conn.createStatement();
         String query = String.format("select (quantity) from ShidItems where userId = '%s' and itemName = '%s'", escapeSql(user), escapeSql(item));
         ResultSet results = stmt.executeQuery(query);
-
-        return results.getInt(0);
+        if(results.first())
+            return results.getInt(0);
+        return 0;
     }
 
 
     public void setItemQuantity(String user, String item, int quantity) throws SQLException {
         Statement stmt = conn.createStatement();
-        String query = String.format("update ShidUsers set quantity = %d where userId = %s and itemName = %s", quantity, escapeSql(user), escapeSql(item));
-        int rowsAffected = stmt.executeUpdate(query);
-        if(rowsAffected == 0) {
-            query = String.format("insert into ShidUsers values ('%s', '%s', %d)", escapeSql(user), escapeSql(item), quantity);
+        if(quantity == 0) {
+            String query = String.format("delete from ShidItems where userId = %s and itemName = %s", escapeSql(user), escapeSql(item));
             stmt.executeUpdate(query);
+        } else {
+            String query = String.format("update ShidItems set quantity = %d where userId = %s and itemName = %s", quantity, escapeSql(user), escapeSql(item));
+            int rowsAffected = stmt.executeUpdate(query);
+            if(rowsAffected == 0) {
+                query = String.format("insert into ShidItems values ('%s', '%s', %d)", escapeSql(user), escapeSql(item), quantity);
+                stmt.executeUpdate(query);
+            }
         }
+
     }
 
     public void close() throws SQLException {
