@@ -16,6 +16,10 @@ public class Database {
 
     private Connection conn;
 
+    // things for dthusian:
+    // list items
+
+
 
     //global stuff
     public final static int conjugationGain = 1;
@@ -46,8 +50,9 @@ public class Database {
 
     public int getItemQuantity(String user, String item) throws SQLException {
         Statement stmt = conn.createStatement();
-        String query = String.format("select (quantity) from ShidUsers where userId = '%s' and itemName = '%s'", escapeSql(user), escapeSql(item));
+        String query = String.format("select (quantity) from ShidItems where userId = '%s' and itemName = '%s'", escapeSql(user), escapeSql(item));
         ResultSet results = stmt.executeQuery(query);
+
         return results.getInt(0);
     }
 
